@@ -10,7 +10,7 @@ import theme from "utlis/theme";
 
 import { useTranslation } from "react-i18next";
 
-import { Navigation, Wrapper, LoadingIndicator } from "components";
+import { Navigation, Wrapper, LoadingIndicator, Button } from "components";
 
 function App() {
   const { i18n } = useTranslation();
@@ -25,15 +25,25 @@ function App() {
           ]}
           RightElement={
             <div>
-              <button onClick={() => i18n.changeLanguage("pl")}>pl</button>
-              <button onClick={() => i18n.changeLanguage("eng")}>eng</button>
+              <Button
+                variant="inline"
+                onClick={() => i18n.changeLanguage("pl")}
+              >
+                pl
+              </Button>
+              <Button
+                variant="inline"
+                onClick={() => i18n.changeLanguage("eng")}
+              >
+                eng
+              </Button>
             </div>
           }
         />
         <Wrapper>
           <Switch>
             <Route exact path="/">
-              Homepage
+              niwigwifwqapfibfpa
             </Route>
             <Route path="/budget">Budget Page</Route>
           </Switch>

@@ -4,6 +4,7 @@ export default {
     sm: 20,
     xl: 30,
   },
+
   colors: {
     gray: {
       light: "rgb(238, 238, 238)",
