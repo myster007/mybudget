@@ -8,9 +8,12 @@ import GlobalStyles from "./index.css";
 
 import theme from "utlis/theme";
 
-import { Navigation } from "./components";
+import { useTranslation } from "react-i18next";
+
+import { Navigation, Wrapper, LoadingIndicator } from "components";
 
 function App() {
+  const { i18n } = useTranslation();
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
@@ -18,18 +21,34 @@ function App() {
         <Navigation
           items={[
             { content: "Homepage", to: "/" },
-            { content: "Budget", to: "/budget" },
+            { content: "Budget", to: "/Budget" },
           ]}
+          RightElement={
+            <div>
+              <button onClick={() => i18n.changeLanguage("pl")}>pl</button>
+              <button onClick={() => i18n.changeLanguage("eng")}>eng</button>
+            </div>
+          }
         />
-        <Switch>
-          <Route exact path="/">
-            Homepage 1
-          </Route>
-          <Route path="budget">My budget</Route>
-        </Switch>
+        <Wrapper>
+          <Switch>
+            <Route exact path="/">
+              Homepage
+            </Route>
+            <Route path="/budget">Budget Page</Route>
+          </Switch>
+        </Wrapper>
       </Router>
     </ThemeProvider>
   );
 }
 
-export default App;
+function RootApp() {
+  return (
+    <React.Suspense fallback={<LoadingIndicator />}>
+      <App />
+    </React.Suspense>
+  );
+}
+
+export default RootApp;
