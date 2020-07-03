@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment, useEffect } from "react";
 
 import { ThemeProvider } from "styled-components";
 
@@ -12,7 +12,18 @@ import { useTranslation } from "react-i18next";
 
 import { Navigation, Wrapper, LoadingIndicator, Button } from "components";
 
-function App() {
+import { connect } from "react-redux";
+import {
+  fetchBudget,
+  fetchBudgetedCategories,
+} from "data/actions/budget.actions";
+
+function App({ budget, fetchBudget }) {
+  useEffect(() => {
+    fetchBudget(1);
+    fetchBudgetedCategories(1);
+  }, [fetchBudget, fetchBudgetedCategories]);
+
   const { i18n } = useTranslation();
   return (
     <ThemeProvider theme={theme}>
@@ -53,10 +64,19 @@ function App() {
   );
 }
 
+const ConnectedApp = connect(
+  (state) => {
+    return {
+      budget: state.budget.budget,
+    };
+  },
+  { fetchBudget }
+)(App);
+
 function RootApp() {
   return (
     <React.Suspense fallback={<LoadingIndicator />}>
-      <App />
+      <ConnectedApp />
     </React.Suspense>
   );
 }
