@@ -1,10 +1,9 @@
 export default {
   spacing: {
-    xs: 10,
-    sm: 20,
-    xl: 30,
+    xs: 5,
+    sm: 10,
+    xl: 20,
   },
-
   colors: {
     gray: {
       light: "rgb(238, 238, 238)",

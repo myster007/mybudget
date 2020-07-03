@@ -1,16 +1,22 @@
 import {
-  BUDGET_GET,
+  // eslint-disable-next-line
   BUDGET_GET_REQUEST,
+  // eslint-disable-next-line
   BUDGET_GET_SUCCESS,
+  // eslint-disable-next-line
   BUDGET_GET_FAILURE,
+  // eslint-disable-next-line
   BUDGETED_CATEGORIES_GET_REQUEST,
+  // eslint-disable-next-line
   BUDGETED_CATEGORIES_GET_SUCCESS,
+  // eslint-disable-next-line
   BUDGETED_CATEGORIES_GET_FAILURE,
+  // eslint-disable-next-line
   LOADING_STATES,
 } from "data/constants";
 
 const initialState = {
-  loadingState: {},
+  loadingState: null,
   budget: {},
   budgetCategories: [],
 };

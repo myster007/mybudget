@@ -1,5 +1,4 @@
 import {
-  ALL_CATEGORIES_GET,
   ALL_CATEGORIES_GET_REQUEST,
   ALL_CATEGORIES_GET_SUCCESS,
   ALL_CATEGORIES_GET_FAILURE,
@@ -7,7 +6,7 @@ import {
 } from "data/constants";
 
 const initialState = {
-  loadingState: {},
+  loadingState: null,
   allCategories: [],
 };
 
