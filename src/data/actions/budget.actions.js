@@ -2,7 +2,7 @@ import { BUDGET_GET, BUDGETED_CATEGORIES_GET } from "data/constants";
 
 import API from "data/fetch";
 
-export const fetchBudget = (id) => (dispatch) => {
+export const fetchBudget = (id) => {
   const promise = API.budget.fetchBudget(id);
 
   return {
@@ -11,7 +11,7 @@ export const fetchBudget = (id) => (dispatch) => {
   };
 };
 
-export const fetchBudgetedCategories = (id) => (dispatch) => {
+export const fetchBudgetedCategories = (id) => {
   const promise = API.budget.fetchBudgetedCategories(id);
 
   return {
