@@ -11,10 +11,10 @@ export const ParentCategory = styled(Category)`
   background-color: ${({ theme }) => theme.colors.gray.normal};
 `;
 
-// export const CategoryAmount = styled.span`
-//   font-weight: 700;
-//   color: ${({ theme, negative }) => negative ? theme.colors.red.normal : theme.colors.green.normal}
-// `;
+export const CategoryAmount = styled.span`
+  font-weight: 700;
+  color: ${({ theme, negative }) => negative ? theme.colors.red.normal : theme.colors.green.normal}
+`;
 
 export const CategoryItem = styled(Category)`
   background-color: ${({ theme }) => theme.colors.gray.light};

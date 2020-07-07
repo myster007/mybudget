@@ -10,7 +10,6 @@ ul {
 
    li + li {
    margin-left: ${({ theme }) => theme.spacing.xs}px;
- }
-  
+ } 
 }
 `;
