@@ -1,70 +1,69 @@
-import React, { Fragment, useEffect, useMemo } from "react";
+import React, { Fragment, useMemo } from 'react';
 import { connect } from "react-redux";
 
-import {
-  fetchBudget,
-  fetchBudgetedCategories,
-} from "data/actions/budget.actions";
+import { addTransaction } from 'data/actions/budget.actions';
 
 import {
   Switch,
   Route,
+  useHistory
 } from 'react-router-dom';
 
-import { fetchAllCategories } from "data/actions/common.actions";
-
 import { Grid } from "./Budget.css";
-import { LoadingIndicator, Modal, Button } from "components";
+import { Modal, Button, LoadingIndicator } from "components";
+
 import BudgetCategoryList from 'pages/Budget/components/BudgetCategoryList';
 import BudgetTransactionList from 'pages/Budget/components/BudgetTransactionList';
+import AddTransactionForm from 'pages/Budget/components/AddTransactionForm';
+
 
 function Budget({
-  commonState,
-  budgetState,
-  fetchBudget,
-  fetchBudgetedCategories,
-  fetchAllCategories,
+  commonState, budgetState, allCategories, budget,
+  fetchBudget, fetchBudgetedCategories, fetchAllCategories, addTransaction,
 }) {
-  useEffect(() => {
-    fetchBudget(1);
-    fetchBudgetedCategories(1);
-    fetchAllCategories();
-  }, [fetchBudget, fetchBudgetedCategories, fetchAllCategories]);
 
+  const history = useHistory();
   const isLoaded = useMemo(
-    () =>
-      !!commonState &&
-      Object.keys(commonState).length === 0 &&
-      !!budgetState &&
-      Object.keys(budgetState).length === 0,
+    () => (!!commonState && Object.keys(commonState).length === 0)
+      && (!!budgetState && Object.keys(budgetState).length === 0),
     [commonState, budgetState]
   );
+
+  console.log({ isLoaded })
+  const handleSubmitAddTransaction = (values) => {
+    addTransaction({
+      budgetId: budget.id,
+      data: values
+    }).then(() => {
+      history.goBack()
+    })
+  }
 
   return (
     <Fragment>
       <Grid>
-
         <section>
-          {isLoaded ? (
-            <Fragment>
-              <Button to="/budget/transaction/new">
-                Add new transaction
-              </Button>
-              <BudgetCategoryList />
-            </Fragment>
-
-          ) : (
-              <LoadingIndicator />
-            )}
+          <React.Suspense fallback={<LoadingIndicator />}>
+            <BudgetCategoryList />
+          </React.Suspense>
         </section>
+
         <section>
-          {isLoaded ? <BudgetTransactionList /> : <LoadingIndicator />}
+          <React.Suspense fallback={<LoadingIndicator />}>
+            <Button to='/budget/transactions/new'>Add new transaction</Button>
+            <BudgetTransactionList />
+          </React.Suspense>
         </section>
       </Grid>
+
       <Switch>
         <Route exact path="/budget/transactions/new">
           <Modal>
-            Modal content
+            <AddTransactionForm
+              categories={allCategories}
+              groupCategoriesBy="parentCategory.name"
+              onSubmit={handleSubmitAddTransaction}
+            />
           </Modal>
         </Route>
       </Switch>
@@ -72,17 +71,15 @@ function Budget({
   );
 }
 
-export default connect(
-  (state) => {
-    return {
-      budget: state.budget.budget,
-      commonState: state.common.loadingState,
-      budgetState: state.budget.loadingState,
-    };
-  },
+export default connect((state) => {
+  return {
+    budget: state.budget.budget,
+    commonState: state.common.loadingState,
+    budgetState: state.budget.loadingState,
+    allCategories: state.common.allCategories,
+  }
+},
   {
-    fetchBudget,
-    fetchBudgetedCategories,
-    fetchAllCategories,
+    addTransaction,
   }
 )(Budget);

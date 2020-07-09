@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import { normalize } from "styled-normalize";
+import { createGlobalStyle } from 'styled-components';
+import { normalize } from 'styled-normalize';
 
 export default createGlobalStyle`
   ${normalize}
@@ -8,8 +8,8 @@ ul {
   margin: 0;
   padding: 0;
 
-   li + li {
-   margin-left: ${({ theme }) => theme.spacing.xs}px;
- } 
+  li + li {
+    margin-left: ${({ theme }) => theme.spacing.xs}px;
+    }
 }
 `;

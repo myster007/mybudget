@@ -3,7 +3,7 @@ export default function promiseMiddleware() {
     return function (action) {
       const { promise, type, ...rest } = action;
 
-      if (!promise || typeof promise.then !== "function") {
+      if (!promise || typeof promise.then !== 'function') {
         return next(action);
       }
 
@@ -12,14 +12,19 @@ export default function promiseMiddleware() {
       const REQUEST = `${type}_REQUEST`;
 
       next({ type: REQUEST, ...rest });
+
       return promise
-        .then((Response) => Response.json())
-        .then((data) => {
-          next({ type: SUCCESS, payload: data, ...rest });
+        .then(response => response.json())
+        .then(data => {
+          next({
+            type: SUCCESS,
+            payload: data,
+            ...rest
+          })
         })
-        .catch((error) => {
+        .catch(error => {
           next({ type: FAILURE, error, ...rest });
-        });
-    };
-  };
+        })
+    }
+  }
 }

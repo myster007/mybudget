@@ -1,24 +1,27 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-// import { ThemeProvider } from "styled-components";
+import GlobalStyles from './index.css';
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-import GlobalStyles from "./index.css";
-
-// import theme from "utlis/theme";
+import theme from "utlis/theme";
 
 import { useTranslation } from "react-i18next";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+import { ReactQueryConfigProvider } from 'react-query';
 import { Navigation, Wrapper, LoadingIndicator, Button } from "components";
 
 // import {
 //   fetchBudget,
 //   fetchBudgetedCategories,
-// } from "data/actions/budget.actions";
-import Budget from "pages/Budget";
+// } from 'data/actions/budget.actions';
+import Budget from 'pages/Budget';
+import { ThemeProvider } from 'styled-components';
 
-function App({ budget, fetchBudget }) {
+toast.configure();
+
+function App({ budget, fetchBudget, fetchBudgetedCategories }) {
   const { i18n } = useTranslation();
   return (
     <Fragment>
@@ -26,30 +29,21 @@ function App({ budget, fetchBudget }) {
       <Router>
         <Navigation
           items={[
-            { content: "Homepage", to: "/" },
-            { content: "Budget", to: "/Budget" },
+            { content: 'Homepage', to: '/' },
+            { content: 'budget', to: '/budget' },
           ]}
-          RightElement={
+          RightElement={(
             <div>
-              <Button
-                variant="inline"
-                onClick={() => i18n.changeLanguage("pl")}
-              >
-                pl
-              </Button>
-              <Button
-                variant="inline"
-                onClick={() => i18n.changeLanguage("eng")}
-              >
-                eng
-              </Button>
+              <Button variant="regular" onClick={() => i18n.changeLanguage('pl')}>pl</Button>
+              <Button variant="regular" onClick={() => i18n.changeLanguage('eng')}>eng</Button>
             </div>
-          }
+          )}
         />
+
         <Wrapper>
           <Switch>
             <Route exact path="/">
-              niwigwifwqapfibfpa
+              Homepage
             </Route>
             <Route path="/budget">
               <Budget />
@@ -61,12 +55,20 @@ function App({ budget, fetchBudget }) {
   );
 }
 
+const queryConfig = {
+  suspense: true,
+}
+
 function RootApp() {
   return (
-    <React.Suspense fallback={<LoadingIndicator />}>
-      <App />
-    </React.Suspense>
-  );
+    <ReactQueryConfigProvider config={queryConfig}>
+      <ThemeProvider theme={theme}>
+        <React.Suspense fallback={<LoadingIndicator />}>
+          <App />
+        </React.Suspense>
+      </ThemeProvider>
+    </ReactQueryConfigProvider>
+  )
 }
 
 export default RootApp;

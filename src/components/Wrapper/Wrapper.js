@@ -4,9 +4,11 @@ const Wrapper = styled.div`
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  margin-left: auto;
   max-width: 960px;
   padding-left: 10px;
   padding-right: 10px;
+  padding-left: 10px;
 `;
 
 export default Wrapper;
