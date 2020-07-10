@@ -1,5 +1,4 @@
-import React, { useMemo, useCallback, useRef } from 'react';
-import { connect } from "react-redux";
+import React, { useMemo, useCallback, useRef, useContext } from 'react';
 import { groupBy, } from "lodash";
 import { useTranslation } from 'react-i18next';
 import 'styled-components/macro';
@@ -7,20 +6,23 @@ import { useQuery } from 'react-query';
 
 import API from 'data/fetch';
 
+import BudgetContext from 'data/context/budget.context';
+
 import { ToggleableList } from "components";
 import ParentCategory from './ParentCategory';
 import CategoryItem from './CategoryItem';
 //import budget from 'data/reducers/budget.reducer';
-import { selectParentCategory } from 'data/actions/budget.actions';
 //-----------------------------------------
 
-function BudgetCategoryList({ selectParentCategory }) {
+function BudgetCategoryList() {
   const { data: budget, } = useQuery(['budget', { id: 1 }], API.budget.fetchBudget);
   const { data: allCategories } = useQuery('allCategories', API.common.fetchAllCategories);
   const { data: budgetedCategories, } = useQuery(
     ['budgetedCategories', { id: 1 }],
     API.budget.fetchBudgetedCategories
   );
+
+  const { setSelectedParentCategoryId, selectedParentCategoryId } = useContext(BudgetContext.store)
   //-----------------------------------
   const { t } = useTranslation();
   const handleClickParentCategoryRef = useRef(null);
@@ -35,18 +37,18 @@ function BudgetCategoryList({ selectParentCategory }) {
 
   const handleClearParentCategorySelect = useCallback(
     () => {
-      selectParentCategory();
+      setSelectedParentCategoryId();
       handleClickParentCategoryRef();
     },
-    [selectParentCategory, handleClickParentCategoryRef]
+    [setSelectedParentCategoryId, handleClickParentCategoryRef]
   );
 
 
   const handleSelectRestParentCategories = useCallback(
     () => {
-      selectParentCategory(null);
+      setSelectedParentCategoryId(null);
       handleClickParentCategoryRef();
-    }, [selectParentCategory, handleClickParentCategoryRef]
+    }, [setSelectedParentCategoryId, handleClickParentCategoryRef]
   );
   //-----------------------------------------
   const listItems = useMemo(
@@ -57,7 +59,7 @@ function BudgetCategoryList({ selectParentCategory }) {
           name={parentName}
           onClick={() => {
             onClick(parentName);
-            selectParentCategory(parentName)
+            setSelectedParentCategoryId(parentName)
           }}
           categories={categories}
           transactions={budget.transactions}
@@ -76,7 +78,7 @@ function BudgetCategoryList({ selectParentCategory }) {
         )
       }),
     })),
-    [budget.transactions, allCategories, budgetedCategoriesByParent, selectParentCategory]
+    [budget.transactions, allCategories, budgetedCategoriesByParent, setSelectedParentCategoryId]
   );
   //-----------------------------------------
 
@@ -162,6 +164,4 @@ function BudgetCategoryList({ selectParentCategory }) {
   )
 }
 
-export default connect(null, {
-  selectParentCategory
-})(BudgetCategoryList);
+export default BudgetCategoryList;
