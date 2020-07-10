@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { refetchAllQueries } from 'react-query';
+import { LoadingIndicator, Button } from 'components';
 
-class ErrorBoundary extends React.Component {
+class SuspenseErrorBoundary extends React.Component {
     constructor(props) {
         super(props);
         this.state = { hasError: false };
@@ -10,17 +12,31 @@ class ErrorBoundary extends React.Component {
         return { hasError: true };
     }
 
-    componentDidCatch(error, errorInfo) {
-        logErrorToMyService(error, errorInfo);
+    componentDidCatch(error) {
+        console.log(error);
+    }
+
+    tryAgain = async () => {
+        await refetchAllQueries({ includeInactive: true });
+        this.setState({ hasError: false });
     }
 
     render() {
-        if (this.state.hasError) {
-            return <h1>Something went wrong.</h1>;
-        }
-
-        return this.props.children;
+        return (
+            <React.Suspense fallback={<LoadingIndicator />}>
+                {this.state.hasError ? (
+                    <div>
+                        Something went wrong <Button onClick={this.tryAgain}>Try again!</Button>
+                    </div>
+                ) : (
+                        <React.Fragment>
+                            {this.props.children}
+                        </React.Fragment>
+                    )
+                }
+            </React.Suspense>
+        )
     }
 }
 
-export default ErrorBoundary
+export default SuspenseErrorBoundary;

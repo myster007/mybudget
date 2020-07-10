@@ -57,6 +57,7 @@ function App({ budget, fetchBudget, fetchBudgetedCategories }) {
 
 const queryConfig = {
   suspense: true,
+  refetchAllOnWindowFocus: false,
 }
 
 function RootApp() {

@@ -13,8 +13,8 @@ import CategoryItem from './CategoryItem';
 //import budget from 'data/reducers/budget.reducer';
 import { selectParentCategory } from 'data/actions/budget.actions';
 //-----------------------------------------
-function BudgetCategoryList({ selectParentCategory }) {
 
+function BudgetCategoryList({ selectParentCategory }) {
   const { data: budget, } = useQuery(['budget', { id: 1 }], API.budget.fetchBudget);
   const { data: allCategories } = useQuery('allCategories', API.common.fetchAllCategories);
   const { data: budgetedCategories, } = useQuery(
