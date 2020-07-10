@@ -17,7 +17,8 @@ function BudgetTransactionList() {
         API.budget.fetchBudgetedCategories
     );
 
-    const { selectedParentCategoryId } = useContext(BudgetContext.store)
+    const { selectedParentCategoryId } = useContext(BudgetContext.store);
+
 
 
     const filteredTransactionsBySelectedParentCategory = useMemo(

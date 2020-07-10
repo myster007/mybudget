@@ -1,8 +1,8 @@
-import React, { Suspense } from 'react';
-import { refetchAllQueries } from 'react-query';
+import React from 'react';
+import { refetchAllQueries } from 'react-query'
 import { LoadingIndicator, Button } from 'components';
 
-class SuspenseErrorBoundary extends React.Component {
+class ErrorBoundary extends React.Component {
     constructor(props) {
         super(props);
         this.state = { hasError: false };
@@ -39,4 +39,4 @@ class SuspenseErrorBoundary extends React.Component {
     }
 }
 
-export default SuspenseErrorBoundary;
+export default ErrorBoundary;

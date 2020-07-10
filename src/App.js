@@ -35,7 +35,7 @@ function App({ budget, fetchBudget, fetchBudgetedCategories }) {
           RightElement={(
             <div>
               <Button variant="regular" onClick={() => i18n.changeLanguage('pl')}>pl</Button>
-              <Button variant="regular" onClick={() => i18n.changeLanguage('eng')}>eng</Button>
+              <Button variant="regular" onClick={() => i18n.changeLanguage('en')}>en</Button>
             </div>
           )}
         />

@@ -27,7 +27,7 @@ function AddTransactionView() {
         <AddTransactionForm
             categories={allCategories}
             groupCategoriesBy="parentCategory.name"
-            onSubmit={onSubmit}
+            onSubmit={handleSubmitAddTransaction}
         />
     )
 };

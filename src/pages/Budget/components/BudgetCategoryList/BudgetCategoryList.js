@@ -22,16 +22,18 @@ function BudgetCategoryList() {
     API.budget.fetchBudgetedCategories
   );
 
-  const { setSelectedParentCategoryId, selectedParentCategoryId } = useContext(BudgetContext.store)
+  const { dispatch } = useContext(BudgetContext.store);
+  const setSelectedParentCategoryId = useCallback((id) => dispatch({
+    type: 'selectParentCategory',
+    payload: id,
+  }), [dispatch])
   //-----------------------------------
   const { t } = useTranslation();
   const handleClickParentCategoryRef = useRef(null);
+
   const budgetedCategoriesByParent = useMemo(
-    () => groupBy(
-      budgetedCategories,
-      item => allCategories.find(category => category.id === item.categoryId).parentCategory.name
-    ),
-    [budgetedCategories, allCategories]
+    () => groupBy(budgetedCategories, item => allCategories.find(category => category.id === item.categoryId).ParentCategory.name),
+    [budgetedCategories, allCategories],
   );
   //-----------------------------------------
 
