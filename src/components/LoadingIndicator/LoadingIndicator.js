@@ -1,50 +1,43 @@
-import React from "react";
-
-import styled, { keyframes } from "styled-components";
+import React from 'react';
+import styled, { keyframes } from 'styled-components';
 
 const flip = keyframes`
-0% {
-    transform: rotate(0);
-    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  0%, 100% {
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+  }
+  0% {
+    transform: rotateY(0deg);
   }
   50% {
-    transform: rotate(900deg);
-    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: rotateY(1800deg);
+    animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
   }
   100% {
-    transform: rotate(1800deg);
+    transform: rotateY(3600deg);
   }
-}
-
 `;
 
-const Root = styled.div`
+export const Root = styled.div`
   display: inline-block;
-  position: relative;
-  width: 80px;
-  height: 80px;
+  transform: translateZ(1px);
 `;
 
-const Content = styled.div`
-  content: " ";
-  display: block;
-  border-radius: 50%;
-  width: 0;
-  height: 0;
+export const Content = styled.div`
+  display: inline-block;
+  width: 64px;
+  height: 64px;
   margin: 8px;
-  background: black;
-  box-sizing: border-box;
-  border: 32px solid #fdd;
-  border-color: #fdd transparent #fdd transparent;
-  animation: ${flip} 1.2s infinite;
+  border-radius: 50%;
+  background: ${({ theme }) => theme.colors.gray.normal};
+  animation: ${flip} 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 `;
 
-function LoadingIndicator() {
+const LoadingIndicator = () => {
   return (
     <Root>
       <Content />
     </Root>
   );
-}
+};
 
 export default LoadingIndicator;

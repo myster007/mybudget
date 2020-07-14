@@ -1,42 +1,40 @@
-import React from 'react';
-import { refetchAllQueries } from 'react-query'
+import React, { Suspense } from 'react';
+import { refetchAllQueries } from 'react-query';
 import { LoadingIndicator, Button } from 'components';
 
-class ErrorBoundary extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { hasError: false };
-    }
-
+class SuspenseErrorBoundary extends React.PureComponent {
     static getDerivedStateFromError(error) {
-        return { hasError: true };
+        return { error };
     }
+    static defaultProps = {
+        error: {},
+    }
+    state = { status: null };
 
-    componentDidCatch(error) {
-        console.log(error);
+    componentDidCatch(error, info) {
+        // log the error to the server like Rollbar/Sentry
+        console.log(error, info);
     }
 
     tryAgain = async () => {
         await refetchAllQueries({ includeInactive: true });
-        this.setState({ hasError: false });
-    }
+        this.setState({ error: null });
+    };
 
     render() {
         return (
-            <React.Suspense fallback={<LoadingIndicator />}>
-                {this.state.hasError ? (
+            <Suspense fallback={<LoadingIndicator />}>
+                {this.state.error ? (
                     <div>
-                        Something went wrong <Button onClick={this.tryAgain}>Try again!</Button>
+                        There was an error. <Button onClick={this.tryAgain}>Try again</Button>
+                        <pre style={{ whiteSpace: 'normal' }}>{this.state.error.message}</pre>
                     </div>
                 ) : (
-                        <React.Fragment>
-                            {this.props.children}
-                        </React.Fragment>
-                    )
-                }
-            </React.Suspense>
-        )
+                        this.props.children
+                    )}
+            </Suspense>
+        );
     }
 }
 
-export default ErrorBoundary;
+export default SuspenseErrorBoundary;

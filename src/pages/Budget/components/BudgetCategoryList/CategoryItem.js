@@ -1,17 +1,51 @@
-import React, { useMemo } from 'react';
+// import React, { useMemo } from 'react';
 
-import { CategoryItem as Root, CategoryAmount } from './BudgetCategoryList.css'
+// import { CategoryItem as Root, CategoryAmount } from './BudgetCategoryList.css'
+// import { formatCurrency } from 'utlis';
+
+
+
+// const CategoryItem = ({ item, transactions, categories }) => {
+//     const categoryTransactions = transactions
+//         .filter(transaction => transaction.categoryId === item.id);
+
+//     const spentOnCategory = categoryTransactions
+//         .reduce((acc, transaction) => acc + transaction.amount, 0);
+
+//     const totalLeft = item.budget
+//         ? item.budget - spentOnCategory
+//         : null;
+//     const name = useMemo(() => categories.find(category => category.id === item.categoryId).name, [categories, item]);
+
+//     return (
+//         <Root>
+//             <span> {name}</span>
+//             <span>
+//                 <CategoryAmount negative={totalLeft < 0}>
+//                     {formatCurrency(totalLeft)}
+//                 </CategoryAmount>
+//             </span>
+//         </Root>
+//     );
+// };
+// CategoryItem.defaultProps = {
+//     transactions: [],
+//     categories: [],
+// };
+
+// export default CategoryItem;
+
+import React, { useMemo } from 'react';
 import { formatCurrency } from 'utlis';
 
+import { CategoryList as Root, CategoryAmount } from './BudgetCategoryList.css';
 
-
-function CategoryItem({ item, transactions, categories }) {
-    const categoryTransactions = transactions
-        .filter(transaction => transaction.categoryId === item.id);
-
-    const spentOnCategory = categoryTransactions
-        .reduce((acc, transaction) => acc + transaction.amount, 0);
-
+const CategoryItem = ({
+    item,
+    transactions, categories,
+}) => {
+    const categoryTransactions = transactions.filter(transaction => transaction.categoryId === item.id);
+    const spentOnCategory = categoryTransactions.reduce((acc, transaction) => acc + transaction.amount, 0);
     const totalLeft = item.budget
         ? item.budget - spentOnCategory
         : null;
@@ -19,15 +53,18 @@ function CategoryItem({ item, transactions, categories }) {
 
     return (
         <Root>
-            <span> {name}</span>
-
-            <CategoryAmount negative={totalLeft < 0}>
-                {formatCurrency(totalLeft)}
-            </CategoryAmount>
-
+            <span>
+                {name}
+            </span>
+            <span>
+                <CategoryAmount negative={totalLeft < 0}>
+                    {formatCurrency(totalLeft)}
+                </CategoryAmount>
+            </span>
         </Root>
-    )
-}
+    );
+};
+
 CategoryItem.defaultProps = {
     transactions: [],
     categories: [],

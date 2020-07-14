@@ -1,5 +1,7 @@
-export const fetchAllCategories = async () => {
-  const response = fetch(`${process.env.REACT_APP_API_URL}/categories/?_expand=ParentCategory`);
-  const data = await (await response).json();
+
+export async function fetchAllCategories() {
+  const res = await fetch(`${process.env.REACT_APP_API_URL}/categories/?_expand=parentCategory`);
+  const data = await res.json();
+
   return data;
-};
+}

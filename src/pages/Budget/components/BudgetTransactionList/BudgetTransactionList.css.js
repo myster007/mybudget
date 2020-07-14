@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 export const List = styled.ul`
-  li + li {
+  ul + ul {
     margin-top: ${({ theme }) => theme.spacing.xs}px;
   }
 `;
 
-export const ListItem = styled.li`
+export const ListItem = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.gray.dark};
   padding: ${({ theme }) => theme.spacing.xs}px;
   display: flex;

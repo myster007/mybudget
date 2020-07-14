@@ -224,6 +224,14 @@
       "date": "2020-02-20",
       "budgetId": "1",
       "id": "jHBfyjy"
+    },
+    {
+      "description": "Pay a rent",
+      "amount": 2700,
+      "categoryId": 3,
+      "date": "2020-01-06",
+      "budgetId": "1",
+      "id": "41cNWE6"
     }
   ]
 }

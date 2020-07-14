@@ -1,20 +1,30 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import { render } from 'react-dom';
+import { ReactQueryConfigProvider } from 'react-query';
 
-//import { Provider } from "react-redux";
-import "./index.css.js";
-import "./i18n/i18n";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-//import configureStore from "data/store";
+import App from './App';
+import './i18n/i18n';
+import * as serviceWorker from './serviceWorker';
 
-//const store = configureStore();
-ReactDOM.render(
-  //<Provider store={store}>
-  <App />,
-  //</Provider>,
-  document.getElementById("root")
-);
+const queryConfig = {
+  suspense: true,
+  refetchAllOnWindowFocus: false,
+};
+
+const renderApp = () => {
+  return render(
+    <ReactQueryConfigProvider config={queryConfig}>
+      <App />
+    </ReactQueryConfigProvider>,
+    document.getElementById('root'),
+  );
+};
+
+if (process.env.NODE_ENV !== 'production' && module.hot) {
+  module.hot.accept('./App', renderApp);
+}
+
+renderApp();
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
